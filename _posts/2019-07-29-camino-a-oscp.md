@@ -1,16 +1,16 @@
 ---
 layout: post
-title: CVE-2019-0708 - Vulnerabilidad en servicio RDP de Windows
-date: 2019-05-17 16:25:06
-description: Información sobre la nueva vulnerabilidad parcheada por Microsoft.
+title: Camino al OSCP
+date: 2019-07-29 20:44
+description: Cuales son mis planes para certificar OSCP
 toc: true
 comments: true
 tags: 
- - vulnerabilidades
+ - OSCP
 
 ---
 
-## **CVE-2019-0708 - Vulnerabilidad en servicio RDP de Windows**
+## **Camino al OSCP**
 ---
 
 El pasado martes, microsoft publicó un parche para una vulnerabilidad crítica del protocolo RDP que es facilmente ¨wormable¨ de la misma manera que lo fue en su momento el Ransomware [WannaCry](https://es.wikipedia.org/wiki/WannaCry) aprovechandose de la vulnerabilidad EternalBlue ([MS17-010](https://docs.microsoft.com/en-us/security-updates/securitybulletins/2017/ms17-010)).
