@@ -96,17 +96,15 @@ Nmap done: 1 IP address (1 host up) scanned in 127.10 seconds
 ```
 
 ### **Protocolo SSH**
----
 
 >**``ssh 10.0.0.107``**
 ```console
 Unable to negotiate with 10.0.0.107 port 22: no matching key exchange method found. Their offer: diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
 ```
 La conexión por SSH funciona pero hay un error de cifrado, voy a averiguar sobre esto más adelante.
-### **SAMBA**
----
+
 ### **Protocolo HTTP (80 y 443)**
----
+
 >**``nikto -h 10.0.0.107``**
 ```console
 - Nikto v2.1.6
@@ -194,11 +192,9 @@ END_TIME: Mon Feb  3 15:17:00 2020
 DOWNLOADED: 13836 - FOUND: 6
 
 ```
-
-
----
 ### **Resultado del Reconocimiento**
----
+
+
  - Apache versión 1.3.20 en puertos 80 y 443.
  - Sistema operativo Red Hat.
  - Multi Router Traffic Grapher (MRTG 2.9.6) corriendo.
