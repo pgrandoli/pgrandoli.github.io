@@ -149,7 +149,6 @@ La conexión por SSH funciona pero hay un error de cifrado, voy a averiguar sobr
 + End Time:           2020-02-03 15:16:33 (GMT-3) (25 seconds)
 ---------------------------------------------------------------------------
 + 1 host(s) tested
-
 ```
 
 >**``dirb http://10.0.0.107``**
@@ -190,7 +189,6 @@ GENERATED WORDS: 4612
 -----------------
 END_TIME: Mon Feb  3 15:17:00 2020
 DOWNLOADED: 13836 - FOUND: 6
-
 ```
 ### **Resultado del Reconocimiento**
 
@@ -230,7 +228,6 @@ Bien, hay 1 una vulnerabilidad que solo sirve para hacer una ataque de DOS, como
 File Type: C source, ASCII text, with CRLF line terminators
 
 Copied to: /root/764.c
-
 ```
 Una vez que tenemos el código fuente de exploit solo resta compilarlo, asegurarse de tener instalado `GCC` y `libssl-dev` o va a fallar la compilación.
 
