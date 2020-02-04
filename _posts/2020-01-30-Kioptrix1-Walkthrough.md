@@ -21,7 +21,6 @@ tags:
 ---
 >**`nmap -T4 -p- 10.0.0.107`**
 
-
 ```console
 Nmap scan report for 10.0.0.107
 Host is up (0.0034s latency).
@@ -98,6 +97,7 @@ Nmap done: 1 IP address (1 host up) scanned in 127.10 seconds
 ### **Protocolo SSH**
 
 >**``ssh 10.0.0.107``**
+
 ```console
 Unable to negotiate with 10.0.0.107 port 22: no matching key exchange method found. Their offer: diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
 ```
@@ -106,6 +106,7 @@ La conexión por SSH funciona pero hay un error de cifrado, voy a averiguar sobr
 ### **Protocolo HTTP (80 y 443)**
 
 >**``nikto -h 10.0.0.107``**
+
 ```console
 - Nikto v2.1.6
 ---------------------------------------------------------------------------
@@ -205,6 +206,7 @@ DOWNLOADED: 13836 - FOUND: 6
 Voy a ir por el camino más simple, en este caso es buscar vulnerabilidad para `Apache mod_ssl`. El comando searchsploit busca vulnerabilidades según la cadena de texto que se escriba a continuación del comando. En este caso la búsqueda va a ser mod_ssl 2.8, basado en la versión de mod_ssl que me facilitó NMAP.
 
 > **`searchsploit mod_ssl 2.8.`**
+
 ```console
 ---------------------------------------------------------------------------- ---------------------------------
  Exploit Title | Path
@@ -277,4 +279,5 @@ Acá es donde se vuelve importante la versión de sistema operativo y Apache que
 Voy a ir por la primera, el comando sería:
 
 >**`./OpenFuck 0x6a 100.0.0.107 -c 50`**
+
 
