@@ -223,7 +223,18 @@ Y lo siguiente que aparece si abrimos la imágen resultante es el password:
 
 ---
 
+Así que tenemos:
 
+ - Usuario: eezeepz
+ - Password: KeKkeKKeKKeKkEkkEk
+
+Si pruebo de loguearme con esa credenciales tengo éxito y se presenta la siguiente página de upload:
+
+---
+
+![img]({{ '/assets/images/Fristileaks/upload.png' | relative_url }}){: .center-image }*(Hermoso password)*
+
+---
 
 ### **Protocolo SSH**
 ---
