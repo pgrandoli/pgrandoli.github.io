@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Humble Bundle de Libros sobre Ciberseguridad
-date: 2020-02-08 20:44
+date: 2020-02-18 20:44
 description: Humble Bundle de Libros sobre Ciberseguridad
 toc: true
 comments: true
