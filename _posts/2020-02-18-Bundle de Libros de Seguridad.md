@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Humble Bundle de Libros sobre Ciberseguridad
+title: Con U$D15 me compro alto Humble
 date: 2020-02-18 20:44
 description: Humble Bundle de Libros sobre Ciberseguridad
 toc: true
@@ -8,9 +8,6 @@ comments: true
 tags: 
  - Noticias
 
----
-
-## **Con U$D 15 me compro alto Humble**
 ---
 
 La gente de **Humble Bundle** acaba de sacar un paquete de libros sobre **ciberseguridad** de la editorial **Wiley**. La oferta es tentadora incluso con el quilombo cambiario de este país, unos 20 libros por U$D15.-.
