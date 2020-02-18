@@ -136,7 +136,7 @@ Entrando a http://10.0.0.123 se presenta una página de home de login:
 
 ---
 
-![img]({{ '/assets/images/Fristileaks/login_00.png' | relative_url }}){: .center-image }*(Login)*
+![img]({{ '/assets/images/Fristileaks/login_01.png' | relative_url }}){: .center-image }*(Login)*
 
 ---
 
@@ -144,11 +144,11 @@ Teniendo en cuenta el resultado de **Dirb** hay varios directorios no idexables 
 
 ---
 
-![img]({{ '/assets/images/Fristi/robots.png' | relative_url }}){: .center-image }*(Robots.txt)*
+![img]({{ '/assets/images/Fristileaks/robots.png' | relative_url }}){: .center-image }*(Robots.txt)*
 
 ---
 
-![img]({{ '/assets/images/Fristi/obiwan.png' | relative_url }}){: .center-image }*(These are not the droids...)*
+![img]({{ '/assets/images/Fristileaks/obiwan.png' | relative_url }}){: .center-image }*(These are not the droids...)*
 
 ---
 
@@ -172,16 +172,16 @@ Lo primero que hice fue ver el código fuente y aparecieron dos comentarios que 
 
 ![img]({{ '/assets/images/Fristileaks/user.png' | relative_url }}){: .center-image }*(Nombre de usuario revelado)*
 
-´´´console
+```console
 <meta name="description" content="super leet password login-test page. We use base64 encoding for images so they are inline in the HTML. I read somewhere on the web, that thats a good way to do it.">
-´´´
+```
 
 Lo que quiere decir con esto es que la imagen de Nelson que se ve en la página no es una referencia a un archivo dentro del file system del servidor web sino que está directamente embebida en el código HTML, previa conversión a base64.
 
 
 Por otro lado, después del choclo de información que siginifica la imagen codificada den base64 existe el siguiente comentario:
 
-´´´console
+```console
 iVBORw0KGgoAAAANSUhEUgAAAW0AAABLCAIAAAA04UHqAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARSSURBVHhe7dlRdtsgEIVhr8sL8nqymmwmi0kl
 S0iAQGY0Nb01//dWSQyTgdxz2t5+AcCHHAHgRY4A8CJHAHiRIwC8yBEAXuQIAC9yBIAXOQLAixw
@@ -204,7 +204,7 @@ EPdMjO3SSys7XVF+qmT5UcmT9+Ss//fyyOLU3kWoGLd59ZKb6Us10IZMjAP5b5AgAL3IEgBc5AsCLH
 AHgRY4A8CJHAHiRIwC8yBEAXuQIAC9yBIAXOQLAixwB4EWOAPAiRwB4kSMAvMgRAF7kCAAvcgSAFzk
 CwIscAeBFjgDwIkcAeJEjALzIEQBe5AgAL3IEgBc5AsCLHAHgRY4A8Pn9/QNa7zik1qtycQAAAABJR
 U5ErkJggg==
-´´´
+```
 
 ---
 
