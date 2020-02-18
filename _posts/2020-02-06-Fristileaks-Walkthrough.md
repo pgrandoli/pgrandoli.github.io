@@ -232,7 +232,7 @@ Si pruebo de loguearme con esa credenciales tengo éxito y se presenta la siguie
 
 ---
 
-![img]({{ '/assets/images/Fristileaks/upload_00.png' | relative_url }}){: .center-image }*(Hermoso password)*
+![img]({{ '/assets/images/Fristileaks/upload_00.png' | relative_url }}){: .center-image }*(Nanananana)*
 
 ---
 
