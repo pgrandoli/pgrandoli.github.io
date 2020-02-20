@@ -418,7 +418,7 @@ User fristigod may run the following commands on this host:
     (fristi : ALL) /var/fristigod/.secret_admin_stuff/doCom
 ```
 
-A lo que hay que prestar atención acá es que dice que el usuario **fristi** (no fristigod) pueden correr el comando ``/var/fristigod/.secret_admin_stuff/doCom`` con ```sudo``. Entonces el parámetro ``-u [usuario]`` de ``sudo`` nos permite hacer lo que necesitamos.
+A lo que hay que prestar atención acá es que dice que el usuario **fristi** (no fristigod) pueden correr el comando ``/var/fristigod/.secret_admin_stuff/doCom`` con ``sudo``. Entonces el parámetro ``-u [usuario]`` de ``sudo`` nos permite hacer lo que necesitamos.
 
 >**``sudo -u fristi /var/fristigod/.secret_admin_stuff/doCom``**
 
