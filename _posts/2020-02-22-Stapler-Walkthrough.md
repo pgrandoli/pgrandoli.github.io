@@ -902,11 +902,11 @@ Una vez adentro decidi cambiar el password de un usuario admin de **Wordpress**.
 
 ---
 
-![img]({{ '/assets/images/Stapler/wordpress_02.png' | relative_url }}){: .center-image }*(Editar el usuario)*
+![img]({{ '/assets/images/Stapler/phpmyadmin_03.png' | relative_url }}){: .center-image }*(Editar el usuario)*
 
 ---
 
-![img]({{ '/assets/images/Stapler/wordpress_03.png' | relative_url }}){: .center-image }*(Editar el password)*
+![img]({{ '/assets/images/Stapler/phpmyadmin_04.png' | relative_url }}){: .center-image }*(Editar el password)*
 
 ---
 
