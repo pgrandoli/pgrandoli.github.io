@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Stapler - Walkthrough
+title: VulnOSv2 - Walkthrough
 date: 2020-02-29 20:44
 description: Walkthrough - VulnOSv2
 toc: true
