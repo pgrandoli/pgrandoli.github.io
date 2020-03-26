@@ -403,6 +403,7 @@ Lo próximo que hice fue tratar de autenticarme a la carpeta **secured** con el 
 ---
 
 >**``smbclient -U david //10.0.0.137/secured``**
+
 ---
 
 ```console
