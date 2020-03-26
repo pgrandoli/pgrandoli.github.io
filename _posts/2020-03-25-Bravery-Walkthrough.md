@@ -453,7 +453,7 @@ Todas las credenciales que probé no sirvieron de mucho así que antes de probar
 
 ---
 
->``**searchsploit cuppa**``
+>**``searchsploit cuppa``**
 
 ```console
 ----------------------------------------------------------------------------- ----------------------------------------
