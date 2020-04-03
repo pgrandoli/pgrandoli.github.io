@@ -489,7 +489,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 ---
 
-Corriendo el siguiente comando **``find / -perm -u=s -type f 2>/dev/null``** encontré quie hay un ejecutable que no es convencional llamado `statuscheck`.
+Corriendo el siguiente comando **``find / -perm -u=s -type f 2>/dev/null``** encontré un ejecutable que no es convencional llamado `statuscheck`.
 Al ejecutar este binario lo hace con los privilegios de root y si veo el contenido con el comando `strings` se ve que claramente está ejecutando el comando `cURL`:
 
 ---
@@ -584,6 +584,6 @@ cat proof.txt
 
 ---
 
-Ninguna
+Me voy a la cama.
 
 ---
