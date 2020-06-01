@@ -11,7 +11,6 @@ tags:
 
 ---
 
-## Desofuscando un Beacon de Cobalt Strike
 
 En mi día a día me crucé con la ejecución de un script de Powershell que claremente se podía ver en los logs de Event Viewer. La ejecución de este script llevó a una infección de Ransomware. Todo parece indicar que es un Beacon de [Cobalt Strike](https://www.cobaltstrike.com/help-beacon)
 
