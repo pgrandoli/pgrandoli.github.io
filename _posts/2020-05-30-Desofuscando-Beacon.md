@@ -13,7 +13,7 @@ tags:
 
 ## Desofuscando un Beacon de Cobalt Strike
 
-En mi día a día me crucé con la ejecución de un script de Powershell que claremente se podía ver en los logs de Event Viewer. La ejecución de este script llevó a una infección de Ransomware. Todo parece indicar que es un Beacon de [Cobalt Strike]([https://www.cobaltstrike.com/help-beacon](https://www.cobaltstrike.com/help-beacon))
+En mi día a día me crucé con la ejecución de un script de Powershell que claremente se podía ver en los logs de Event Viewer. La ejecución de este script llevó a una infección de Ransomware. Todo parece indicar que es un Beacon de [Cobalt Strike](https://www.cobaltstrike.com/help-beacon)
 
 El evento se veía de la sigueinte manera:
 
@@ -61,6 +61,9 @@ $s=New-Object IO.MemoryStream(,[Convert]::FromBase64String("H4sIAAAAAAAAAK1WbXPa
 ```
 
 ---
+### Segundo nivel de ofuscación
+
+---
 
 Bien, una nueva cadena de carácteres en base64 pero ya se deja ver una porción de código Powershell que hace lo mismo que vamos a hacer nosotros a continuación:
 
@@ -70,13 +73,17 @@ En este caso la decodificación origina un archivo gzip:
 
 > file paso_03
 
-```powershell
+```bash
 paso_03.gzip: gzip compressed data, from FAT filesystem (MS-DOS, OS/2, NT), original size 2999
 ```
 
 ---
 
 > gzip -d paso_03.gz
+
+---
+
+### Tercer nivel de ofuscación
 
 ---
 
@@ -127,17 +134,21 @@ else {
 
 ---
 
+### Cuarto nivel de ofuscación
+
+---
+
 De toda es porción de código la única parte que interesa es la que está ofuscada y el comando **`bxor 35`.** Usando ****ambos se puede finalmente desencriptar el shellcode utilizando [CyberChef]
 
 ---
 
-![img]({{ '/assets/images/desofuscando/cyberchef.png' | relative_url }}){: .center-image }*(Receta)*
+![img]({{ '/assets/images/Desofuscando/cyberchef.png' | relative_url }}){: .center-image }*(Receta)*
 
 ---
 
 El código resultante se puede importan en algún sitio del estilo de [[https://onlinedisassembler.com/](disassembler.io) y así se ve lo siguiente:
 
-![img]({{ '/assets/images/desofuscando/desensamblado.png' | relative_url }}){: .center-image }*(Código desensamblado)*
+![img]({{ '/assets/images/Desofuscando/desensamblado.png' | relative_url }}){: .center-image }*(Código desensamblado)*
 
 Hasta aquí el análisis.
 
