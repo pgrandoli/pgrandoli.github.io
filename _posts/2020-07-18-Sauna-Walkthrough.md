@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sauna - Walkthrough
-date: 2020-18-07 20:44
+date: 2020-07-18 20:44
 description: 18 de Julio y acaban de retirar la VM Sauna, sale walktrough de una máquina Windows fácil con foco en Windows Remote Manager para escalar privilegios y sin usar Metasploit.
 toc: true
 comments: true
