@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DC: 9 - Walkthrough
+title: DC 9 - Walkthrough
 date: 2020-07-28 20:44
 description: En esta VM se usará una inyección de SQL para encontrar algunas credenciales, después de aprovechará una vulnerabilidad de LFI para encontrar información en archivos de configuración del sistema, después de un port knocking un poco de fuerza bruta y a escalar privilegios hacia el root.
 toc: true
@@ -29,7 +29,7 @@ En esta VM se usará una inyección de SQL para encontrar algunas credenciales, 
 
 ## **Reconocimiento**
 ---
->**`nmap -A -T4 -p 80 10.10.10.149`**
+>**`nmap -A -T4 -p 80 10.10.10.151`**
 
 ```console
 # Nmap 7.80 scan initiated Wed Jul 22 10:16:05 2020 as: nmap -A -T4 -p 80 -oA DC9 10.0.0.151
@@ -44,6 +44,7 @@ PORT   STATE SERVICE VERSION
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Wed Jul 22 10:16:13 2020 -- 1 IP address (1 host up) scanned in 8.04 seconds
 ```
+
 Solo el puerto 80 está abierto, por el momento casi no hay posibilidad de una shell reversa. `Nikto` y `Dirb` no arrojan resultados relevantes.
 
 La página ofrece cierta información importante sobre usuarios y una opción de login:
