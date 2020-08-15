@@ -23,7 +23,7 @@ Traceback, una máquina en la que nos encontramos con un deface del sitio princi
 ---
 
 ## **Links**
-Traceback en Hack The Box](https://www.hackthebox.eu/home/machines/profile/131)
+[Traceback en Hack The Box](https://www.hackthebox.eu/home/machines/profile/131)
 
 ---
 
